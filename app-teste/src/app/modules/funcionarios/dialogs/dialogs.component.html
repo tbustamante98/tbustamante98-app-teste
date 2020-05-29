@@ -1,0 +1,48 @@
+<h1 mat-dialog-title>{{ data.tipoAcao }}</h1>
+<div class="container">
+    <form [formGroup]="form" #formDirective="ngForm" (ngSubmit)="submeter(form, formDirective)">
+        <mat-form-field appearance="fill">
+            <mat-label>Nome Completo</mat-label>
+            <input matInput value="data.nomeCompleto" formControlName="nomeCompleto">
+            <mat-error *ngIf="!!form.get('nomeCompleto').errors?.required || !!form.get('nomeCompleto').errors?.pattern">Insira o nome completo</mat-error>
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="fill">
+            <mat-label>Nascimento</mat-label>
+            <input matInput [matDatepicker]="picker" placeholder="Selecione uma data" formControlName="nascimento">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="!!form.get('nascimento').errors?.required || !!form.get('nascimento').errors?.idade">Deve ter 18+ e formato DD/MM/AAAA</mat-error>
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="fill">
+            <mat-label>Email</mat-label>
+            <input matInput [value]="data.email" formControlName="email">
+            <mat-error *ngIf="form.get('email').errors?.email">Insira um email válido</mat-error>
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="fill">
+            <mat-label>Sexo</mat-label>
+            <mat-select formControlName="sexo">
+                <mat-option value="masculino">Masculino</mat-option>
+                <mat-option value="feminino">Feminino</mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.get('sexo').errors?.required">Selecione o sexo</mat-error>
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+            <mat-label>Habilidades</mat-label>
+            <mat-select formControlName="habilidades" multiple>
+                <mat-option *ngFor="let habilidade of data.habilidades" [value]="habilidade.id">{{ habilidade.nome }}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.get('habilidades').errors?.required">Mínimo 1 habilidade</mat-error>
+        </mat-form-field>
+        <br>
+        <mat-checkbox [checked]="data.ativo" formControlName="ativo">Ativo</mat-checkbox>
+        <br>
+        <button mat-raised-button color="primary" [disabled]="!form.valid">
+            {{ data.tipoAcao }}
+        </button>
+    </form>
+</div>
